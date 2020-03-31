@@ -2,6 +2,8 @@
 #### For those playing D&D while in quarentine or simply while alone.
 This is a dice roller for when you gotta play remotely and still wanna show your rolls off, it is connected to discord using a webhook.
 
+You can still use it without connecting to discord and simply share the window if wanted, or simply just use it locally as it also prints everything to the terminal.
+
 To get the webhook from discord you need to:
 1. Edit the channel you wish it to send messages to.
 2. Click Webhooks and then Create Webhook.
