@@ -18,3 +18,7 @@ pip3 install discord.py
 pip3 install requests
 ```
 If you wish to not download the requirements then simply comment out / remove the imports and the call to the ``send_disc_msg()`` function at line 162.
+
+USAGE:
+``python3 dice_roller.py [optional]name``
+By adding a name as an argument you will bypass the startup screen without having to edit the code.
