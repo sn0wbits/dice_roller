@@ -14,6 +14,7 @@ def startup():
     python3 dice_roller.py 1
     Or by pressing ctrl + c
     '''
+    all_os_clear(platform.system())
     title = '\n' + \
             '____ ____ _    _    ____ ____ \n' + \
             '|__/ |  | |    |    |___ |__/ \n' + \
@@ -39,7 +40,7 @@ def sim_login(user_name):
             exit()
         user_name = input('USER: ')
         err += 1
-    print(f'Welcome, {user_name}')
+    print(f'Welcome, {user_name}\n')
     time.sleep(0.2)
     return user_name
 
@@ -70,25 +71,25 @@ def list_shuffle(_list):
     #print(f'Shuffled {c} times!')
     return _list
 
-def results_to_string(results):
-    ''' Generates a string based on the roll
+def results_to_string(results, sides, amount, mod, comp):
+    ''' Generates a string based on the roll.
     '''
     disc_results = []
-    print(f'MOD:\t{input_modifier}  |  COM:\t{input_compare}\nDIE:\t{input_sides}  |  ANT:\t{input_amount}\n\n')
-    disc_results.append(str(f'\nMOD:\t{input_modifier}  |  COM:\t{input_compare}\nDIE:\t{input_sides}  |  ANT:\t{input_amount}\n\n'))
-    results = dice_roller(int(input_sides), int(input_amount), int(input_modifier))
+    print(f'MOD:\t{mod}  |  COM:\t{comp}\nDIE:\t{sides}  |  ANT:\t{amount}\n\n')
+    disc_results.append(str(f'\nMOD:\t{mod}  |  COM:\t{comp}\nDIE:\t{sides}  |  ANT:\t{amount}\n\n'))
+    results = dice_roller(int(sides), int(amount), int(mod))
     results = list_shuffle(results)
     for result in results:
-        if ((result - int(input_modifier)) == 20 and int(input_sides) == 20):
-            print(f'CRITICAL HIT!!! ({result}) ({input_modifier})')
-            disc_results.append(f'CRITICAL HIT!!! ({result}) ({input_modifier})\n')
+        if ((result - int(mod)) == 20 and int(sides) == 20):
+            print(f'CRITICAL HIT!!! ({result}) ({mod})')
+            disc_results.append(f'CRITICAL HIT!!! ({result}) ({mod})\n')
             continue
-        elif ((result - int(input_modifier)) == 1 and int(input_sides) == 20):
-            print(f'CRITICAL FAIL!! ({result}) ({input_modifier})')
-            disc_results.append(f'CRITICAL FAIL!! ({result}) ({input_modifier})\n')
+        elif ((result - int(mod)) == 1 and int(sides) == 20):
+            print(f'CRITICAL FAIL!! ({result}) ({mod})')
+            disc_results.append(f'CRITICAL FAIL!! ({result}) ({mod})\n')
             continue
-        if (input_compare):
-            if (result >= int(input_compare)):
+        if (comp):
+            if (result >= int(comp)):
                 print(f'HIT! ({result})')
                 disc_results.append(f'HIT! ({result})\n')
             else:
@@ -114,6 +115,8 @@ def send_disc_msg(text, name, ID, token, bot_name):
     webhook.send(username = bot_name, embed = embed)
 
 def all_os_clear(OS):
+    ''' Clears terminal dependent on the current OS
+    '''
     if (OS == 'Windows'):
         os.system('cls')
     elif (OS == 'Linux' or OS == 'Darwin'):
@@ -156,10 +159,18 @@ if __name__ == "__main__":
                     input_sides, input_amount, input_modifier = t_inp
                 elif (len(t_inp) == 2):
                     input_sides, input_amount, = t_inp
+                if (not input_sides and not input_amount or input_amount == '0'):
+                    print('ERR: You must add the dice and the amount')
+                    print('EX: 20 1\n')
+                    time.sleep(0.5)
+                    all_os_clear(platform.system())
+                    continue
             except:
                 pass
             try:
-                send_disc_msg(results_to_string(results), user_name, webhook_id, webhook_token, bot_name)
+                send_disc_msg(results_to_string(results, input_sides, input_amount, + \
+                    input_modifier, input_compare), + \
+                        user_name, webhook_id, webhook_token, bot_name)
                 print('Sent to discord...')
             except:
                 print('Unable to send to discord...')
