@@ -1,0 +1,4 @@
+All the current python dependencies:
+
+discord.py
+requests
