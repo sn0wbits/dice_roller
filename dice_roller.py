@@ -168,9 +168,7 @@ if __name__ == "__main__":
             except:
                 pass
             try:
-                send_disc_msg(results_to_string(results, input_sides, input_amount, + \
-                    input_modifier, input_compare), + \
-                        user_name, webhook_id, webhook_token, bot_name)
+                send_disc_msg(results_to_string(results, input_sides, input_amount, input_modifier, input_compare), user_name, webhook_id, webhook_token, bot_name)
                 print('Sent to discord...')
             except:
                 print('Unable to send to discord...')
