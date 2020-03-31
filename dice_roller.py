@@ -10,8 +10,8 @@ import os
 def startup():
     ''' This function is just for fun, to remove the startup screen
     simply comment it out in __main__ or delete the entire thing.
-    Or you can just add something behind when you start it:
-    python3 dice_roller.py 1
+    Or you can just add your name behind when you start it:
+    python3 dice_roller.py sn0w
     Or by pressing ctrl + c
     '''
     all_os_clear(platform.system())
@@ -28,11 +28,13 @@ def startup():
         all_os_clear(platform.system())
         print(title)
         time.sleep(.1)
+    sim_login()
 
-def sim_login(user_name):
+def sim_login():
     ''' This will show automatically when starting the script.
     Same as above except you can only comment out or delete it,
     '''
+    user_name = ''
     err = 0
     while (len(user_name) < 1):
         if (err >= 3):
@@ -123,10 +125,6 @@ def all_os_clear(OS):
         os.system('clear')
 
 if __name__ == "__main__":
-    try: 
-        sys.argv[1]
-    except:
-        startup()
     webhook_id = 0 # Switch with discord webhook id
     webhook_token = '' # Switch with discord webhook token
     bot_name = 'Roller-Bot'
@@ -137,9 +135,11 @@ if __name__ == "__main__":
     input_modifier = 0
     input_compare = 0
     results = []
+    try: 
+        user_name = sys.argv[1]
+    except:
+        startup()
     while(True):
-        if (user_name == ''):
-            user_name = sim_login(user_name)
         print(f'---------- {bot_name} - {user_name} ----------\n' + \
             '\tUsage: diceType howMany [optional] modifier compareTo\n' + \
             '\tExample: 20 1\n' + \
